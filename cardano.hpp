@@ -15,7 +15,7 @@ complex_d_t evalCubicPoly(double a, double b, double c, double d, complex_d_t &z
 // Implementation of Cardano's formula for the solutions of the cubic
 // equation ax^3 + bx^2 +cx +d = 0
 
-void cardano(double a, double b. double c, double d, complex_d_t x[]) {
+void cardano(double a, double b, double c, double d, complex_d_t x[]) {
     //parameters in Cardano's formula
     complex_d_t j = complex_d_t(0.0, 1.0);
     complex_d_t q = (3.0*a*c - b*b) / (9.0*a*a);
@@ -23,7 +23,7 @@ void cardano(double a, double b. double c, double d, complex_d_t x[]) {
     complex_d_t D = q*q*q + r*r;                           //Discriminant
     complex_d_t u = r + std::sqrt(D);
     complex_d_t v = r - std::sqrt(D);
-    comples_d_t s, t;
+    complex_d_t s, t;
 
     if(u.real() >= 0.0)
         s = std::pow(u, 1.0/3.0);
