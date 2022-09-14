@@ -1,5 +1,5 @@
-#ifndef CARDANO_HPP_INCLUDE
-#define CARDANO_HPP_INCLUDE
+#ifndef CARDANOFORFERRARI_HPP_INCLUDE
+#define CARDANOFORFERRARI_HPP_INCLUDE
 
 #include "complex.hpp"
 
@@ -15,7 +15,7 @@ complex_d_t evalCubicPoly(double a, double b, double c, double d, complex_d_t &z
 // Implementation of Cardano's formula for the solutions of the cubic
 // equation ax^3 + bx^2 +cx +d = 0
 
-void cardano(double a, double b, double c, double d, complex_d_t x[]) {
+void cardano(complex_d_t a, complex_d_t b, complex_d_t c, complex_d_t d, complex_d_t x[]) {
     //parameters in Cardano's formula
     complex_d_t j = complex_d_t(0.0, 1.0);
     complex_d_t q = (3.0*a*c - b*b) / (9.0*a*a);
@@ -36,9 +36,9 @@ void cardano(double a, double b, double c, double d, complex_d_t x[]) {
         t = - std::pow(-v, 1.0/3.0);
     
     //computation of solutions
-    x[0] = s + t - b/(3*a);
-    x[1] = - 0.5*(s + t) - b/(3*a) + std::sqrt(3.0)*j*(s-t)/2.0;
-    x[2] = - 0.5*(s + t) - b/(3*a) - std::sqrt(3.0)*j*(s-t)/2.0;
+    x[0] = s + t - b/(3.0*a);
+    x[1] = - 0.5*(s + t) - b/(3.0*a) + std::sqrt(3.0)*j*(s-t)/2.0;
+    x[2] = - 0.5*(s + t) - b/(3.0*a) - std::sqrt(3.0)*j*(s-t)/2.0;
     return;
 }
 
