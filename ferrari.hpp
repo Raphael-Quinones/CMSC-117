@@ -35,7 +35,7 @@ void ferrari(double a, double b, double c, double d, double e, complex_d_t x[]) 
         complex_d_t b_cardano[3];
         cardano(1.0, (2.0*p), ((p*p) - (4.0*r)), (-q*q), b_cardano);
 
-        complex_d_t beta = b_cardano[0];
+        complex_d_t beta = b_cardano[1];
 
         x[0] = (0.5)*(-std::sqrt(beta) + std::sqrt(beta - (2.0*(p + beta + (q/(std::sqrt(beta))))))) - (b/(4*a));
         x[1] = (0.5)*(-std::sqrt(beta) - std::sqrt(beta - (2.0*(p + beta + (q/(std::sqrt(beta))))))) - (b/(4*a));
