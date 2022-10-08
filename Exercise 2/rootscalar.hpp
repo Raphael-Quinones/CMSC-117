@@ -66,6 +66,8 @@ namespace root { namespace scalar{
                 << tol << std::endl;
             std::cout << "NUM ITERATIONS:                   "
                 << numit << std::endl;
+            std::cout << "MAX ITERATIONS:                   "
+                << maxit << std::endl;
             std::cout << "ELAPSED TIME:                     "
                 << elapsed_time
                 << " seconds" << std::endl;
@@ -118,6 +120,31 @@ namespace root { namespace scalar{
         }
         stopwatch.stop();
         return RootScalarResult(k, parameter.maxit, c, fc, err, parameter.tol, stopwatch.get_elapsed_time(), "BISECITON METHOD", term_flag);
+    }
+
+    RootScalarResult fixpoint(UniVarFunction &g, double x, param &parameter){
+        timer stopwatch;
+        stopwatch.start();
+        std::string term_flag = "Success";
+        double err = parameter.tol + 1;
+        int k = 0;
+        int x_old;
+        double c;
+
+        while ((err > parameter.tol) && (k < parameter.maxit)){
+            x_old = x;
+            x = g(x);
+            err = std::abs(x - x_old);
+        }
+
+        //function value
+        double gx = g(x);
+
+        if ((err > parameter.tol) && (k == parameter.maxit)){
+            term_flag = "Fail";
+        }
+        stopwatch.stop();
+        return RootScalarResult(k, parameter.maxit, x, gx, err, parameter.tol, stopwatch.get_elapsed_time(), "FIXPOINT METHOD", term_flag);
     }
 }
 } // end of namespace root::scalar
