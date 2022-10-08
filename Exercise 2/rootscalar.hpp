@@ -126,19 +126,20 @@ namespace root { namespace scalar{
         timer stopwatch;
         stopwatch.start();
         std::string term_flag = "Success";
-        double err = parameter.tol + 1;
+        double err = parameter.tol + 1.;
         int k = 0;
-        int x_old;
+        double x_old;
+        double gx;
         double c;
 
+
         while ((err > parameter.tol) && (k < parameter.maxit)){
+            gx = g(x);
             x_old = x;
             x = g(x);
             err = std::abs(x - x_old);
+            k++;
         }
-
-        //function value
-        double gx = g(x);
 
         if ((err > parameter.tol) && (k == parameter.maxit)){
             term_flag = "Fail";
