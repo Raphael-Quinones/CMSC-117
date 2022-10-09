@@ -147,6 +147,35 @@ namespace root { namespace scalar{
         stopwatch.stop();
         return RootScalarResult(k, parameter.maxit, x, gx, err, parameter.tol, stopwatch.get_elapsed_time(), "FIXPOINT METHOD", term_flag);
     }
+
+    RootScalarResult secant(UniVarFunction &f, double x0, double x1, param &parameter){
+        timer stopwatch;
+        stopwatch.start();
+        std::string term_flag = "Success";
+        double err = parameter.tol + 1.;
+        double f0 = f(x0);
+        double f1 = f(x1);
+        int k = 1;
+        double q, x_temp;
+
+
+        while ((err > parameter.tol) && (k < parameter.maxit)){
+            q = (f1 - f0)/(x1-x0);
+            x_temp = x1;
+            x1 = x1 - (f1/q);
+            x0 = x_temp;
+            f0 = f1;
+            f1 = f(x1);
+            err = std::abs(x1 - x0) + std::abs(f1);
+            k++;
+        }
+
+        if ((err > parameter.tol) && (k == parameter.maxit)){
+            term_flag = "Fail";
+        }
+        stopwatch.stop();
+        return RootScalarResult(k, parameter.maxit, x1, f1, err, parameter.tol, stopwatch.get_elapsed_time(), "FIXPOINT METHOD", term_flag);
+    }
 }
 } // end of namespace root::scalar
 
