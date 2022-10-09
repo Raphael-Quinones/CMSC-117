@@ -227,6 +227,31 @@ namespace root { namespace scalar{
         stopwatch.stop();
         return RootScalarResult(k, parameter.maxit, x, f(x), err, parameter.tol, stopwatch.get_elapsed_time(), "REGULA FALSI METHOD", term_flag);
     }
+
+    RootScalarResult newton(UniVarFunction &f, UniVarFunction &fprime, double x, param &parameter){
+        timer stopwatch;
+        stopwatch.start();
+        std::string term_flag = "Success";
+        double err = parameter.tol + 1.;
+        double fx = f(x);
+        int k = 0;
+        double xold;
+
+
+        while ((err > parameter.tol) && (k < parameter.maxit)){
+            xold = x;
+            x = x - (fx/fprime(x));
+            fx = f(x);
+            err = std::abs(x - xold) + std::abs(fx);
+            k++;
+        }
+
+        if ((err > parameter.tol) && (k == parameter.maxit)){
+            term_flag = "Fail";
+        }
+        stopwatch.stop();
+        return RootScalarResult(k, parameter.maxit, x, fx, err, parameter.tol, stopwatch.get_elapsed_time(), "NEWTON METHOD", term_flag);
+    }
 }
 } // end of namespace root::scalar
 
