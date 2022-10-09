@@ -73,6 +73,20 @@ namespace root { namespace scalar{
                 << " seconds" << std::endl;
             std::cout << std::defaultfloat;
         }
+
+        void printActivity(){
+            std::cout << method_name;
+            std::cout << std::setprecision(16);
+            std::cout << std::fixed;
+            //approximate root
+            std::cout << x << "\t\t\t\t\t\t" ;
+            //function value
+            std::cout << funval << "\t\t\t\t\t\t";
+            //error
+            std::cout << error << "\t\t\t\t\t\t";
+            //niters
+            std::cout << numit << "\t\t\t\t\t\t" << std::endl;
+        }
     };
 
     //bisection method for approximating a solutino of scalar equation f(x) = 0.
@@ -148,7 +162,7 @@ namespace root { namespace scalar{
         return RootScalarResult(k, parameter.maxit, x, gx, err, parameter.tol, stopwatch.get_elapsed_time(), "FIXPOINT METHOD", term_flag);
     }
 
-    RootScalarResult secant(UniVarFunction &f, double x0, double x1, param &parameter){
+    RootScalarResult secant(UniVarFunction &f, double x0, double x1, param &parameter, std::string method_name){
         timer stopwatch;
         stopwatch.start();
         std::string term_flag = "Success";
@@ -174,10 +188,10 @@ namespace root { namespace scalar{
             term_flag = "Fail";
         }
         stopwatch.stop();
-        return RootScalarResult(k, parameter.maxit, x1, f1, err, parameter.tol, stopwatch.get_elapsed_time(), "SECANT METHOD", term_flag);
+        return RootScalarResult(k, parameter.maxit, x1, f1, err, parameter.tol, stopwatch.get_elapsed_time(), method_name, term_flag);
     }
 
-    RootScalarResult regulafalsi(UniVarFunction &f, double x0, double x1, param &parameter){
+    RootScalarResult regulafalsi(UniVarFunction &f, double x0, double x1, param &parameter,std::string method_name){
         timer stopwatch;
         stopwatch.start();
         std::string term_flag = "Success";
@@ -225,10 +239,10 @@ namespace root { namespace scalar{
             term_flag = "Fail";
         }
         stopwatch.stop();
-        return RootScalarResult(k, parameter.maxit, x, f(x), err, parameter.tol, stopwatch.get_elapsed_time(), "REGULA FALSI METHOD", term_flag);
+        return RootScalarResult(k, parameter.maxit, x, f(x), err, parameter.tol, stopwatch.get_elapsed_time(), method_name, term_flag);
     }
 
-    RootScalarResult newton(UniVarFunction &f, UniVarFunction &fprime, double x, param &parameter){
+    RootScalarResult newton(UniVarFunction &f, UniVarFunction &fprime, double x, param &parameter, std::string method_name){
         timer stopwatch;
         stopwatch.start();
         std::string term_flag = "Success";
@@ -250,10 +264,10 @@ namespace root { namespace scalar{
             term_flag = "Fail";
         }
         stopwatch.stop();
-        return RootScalarResult(k, parameter.maxit, x, fx, err, parameter.tol, stopwatch.get_elapsed_time(), "NEWTON METHOD", term_flag);
+        return RootScalarResult(k, parameter.maxit, x, fx, err, parameter.tol, stopwatch.get_elapsed_time(), method_name, term_flag);
     }
     
-    RootScalarResult steffensen(UniVarFunction &f, double x, param &parameter){
+    RootScalarResult steffensen(UniVarFunction &f, double x, param &parameter, std::string method_name){
         timer stopwatch;
         stopwatch.start();
         std::string term_flag = "Success";
@@ -276,7 +290,7 @@ namespace root { namespace scalar{
             term_flag = "Fail";
         }
         stopwatch.stop();
-        return RootScalarResult(k, parameter.maxit, x, fx, err, parameter.tol, stopwatch.get_elapsed_time(), "STEFFENSEN METHOD", term_flag);
+        return RootScalarResult(k, parameter.maxit, x, fx, err, parameter.tol, stopwatch.get_elapsed_time(), method_name, term_flag);
     }
 }
 } // end of namespace root::scalar
