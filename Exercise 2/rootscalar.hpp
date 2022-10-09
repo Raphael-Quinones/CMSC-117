@@ -174,7 +174,58 @@ namespace root { namespace scalar{
             term_flag = "Fail";
         }
         stopwatch.stop();
-        return RootScalarResult(k, parameter.maxit, x1, f1, err, parameter.tol, stopwatch.get_elapsed_time(), "FIXPOINT METHOD", term_flag);
+        return RootScalarResult(k, parameter.maxit, x1, f1, err, parameter.tol, stopwatch.get_elapsed_time(), "SECANT METHOD", term_flag);
+    }
+
+    RootScalarResult regulafalsi(UniVarFunction &f, double x0, double x1, param &parameter){
+        timer stopwatch;
+        stopwatch.start();
+        std::string term_flag = "Success";
+        double err = parameter.tol + 1.;
+        double xarray[50];
+        double farray[50];
+
+        xarray[0] = x0;
+        xarray[1] = x1;
+
+        farray[0] = f(x0);
+        farray[1] = f(x1);
+
+        int k = 1;
+
+        //extras
+        double xc, fc, x_tild, f_tild, q, x;
+        int k_tild;
+
+
+        while ((err > parameter.tol) && (k < parameter.maxit)){
+            xc = xarray[k];
+            fc = farray[k];
+            k_tild = k - 1;
+
+            x_tild = xarray[k_tild];
+            f_tild = farray[k_tild];
+
+            while(((f_tild * fc) >= 0) && (k_tild > 1)){
+                k_tild = k_tild - 1;
+                x_tild = xarray[k_tild];
+                f_tild = farray[k_tild];
+            }
+            q = (fc - f_tild)/(xc- x_tild);
+            x = xc - (fc/q);
+            xarray[k+1] = x;
+            farray[k+1] = f(x);
+
+            err = std::abs(x- xc) + std::abs(farray[k+1]);
+            k++;
+        }
+
+
+        if ((err > parameter.tol) && (k == parameter.maxit)){
+            term_flag = "Fail";
+        }
+        stopwatch.stop();
+        return RootScalarResult(k, parameter.maxit, x, f(x), err, parameter.tol, stopwatch.get_elapsed_time(), "REGULA FALSI METHOD", term_flag);
     }
 }
 } // end of namespace root::scalar
