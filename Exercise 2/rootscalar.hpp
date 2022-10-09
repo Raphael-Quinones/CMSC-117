@@ -79,13 +79,13 @@ namespace root { namespace scalar{
             std::cout << std::setprecision(16);
             std::cout << std::fixed;
             //approximate root
-            std::cout << x << "\t\t\t\t\t\t" ;
+            std::cout << x << "\t\t\t\t" ;
             //function value
-            std::cout << funval << "\t\t\t\t\t\t";
+            std::cout << funval << "\t\t\t\t";
             //error
-            std::cout << error << "\t\t\t\t\t\t";
+            std::cout << error << "\t\t\t\t";
             //niters
-            std::cout << numit << "\t\t\t\t\t\t" << std::endl;
+            std::cout << numit << "\t\t\t\t" << std::endl;
         }
     };
 

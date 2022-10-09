@@ -34,7 +34,7 @@ int main(){
     //approximate by all methods
     freopen("rootfinder.txt","w+",stdout);
     std::cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-    std:: cout << "METHOD\t\t\t\t\tAPPROXIMATE ROOT\t\t\t\t\t\tFUNCTION VALUE\t\t\t\t\t\t\tERROR\t\t\t\t\t\t\t\t\tNITERS" << std::endl;
+    std:: cout << "METHOD\t\t\t\t\tAPPROXIMATE ROOT\t\t\t\tFUNCTION VALUE\t\t\t\t\tERROR\t\t\t\t\t\t\tNITERS" << std::endl;
     std::cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
     
     root::scalar::RootScalarResult  
@@ -54,7 +54,7 @@ int main(){
     steffensenactivity.printActivity();
 
     std::cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-    std:: cout << "METHOD\t\t\t\t\tAPPROXIMATE ROOT\t\t\t\t\t\tFUNCTION VALUE\t\t\t\t\t\t\tERROR\t\t\t\t\t\t\t\t\tNITERS" << std::endl;
+    std:: cout << "METHOD\t\t\t\t\tAPPROXIMATE ROOT\t\t\t\tFUNCTION VALUE\t\t\t\t\tERROR\t\t\t\t\t\t\tNITERS" << std::endl;
     std::cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
     root::scalar::RootScalarResult  
         inexactnewtoncenter = newton(f, fprimecenter, 1., parameter, "Center                   ");
