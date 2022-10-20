@@ -60,6 +60,18 @@ def forwardSubRow(L, b):
         x[i] = (b[i] - s)/L[i][i]
     return x
 
+#LU factorization lukji
+def lukji(A, n):
+    for k in range(n):
+        iter = k + 1
+        for j in range(iter, n):
+            A[j][k] = A[j][k]/A[k][k]
+        for j in range(iter, n):
+            sec_iter = k + 1
+            for i in range(sec_iter, n):
+                A[i][j] = A[i][j] - (A[i][k] * A[k][j])
+    return A
+
 
 if __name__ == "__main__":
     a = [1 for i in range(100)]
@@ -103,6 +115,25 @@ if __name__ == "__main__":
 
     for i in range(100):
         print(oneBsolution[i])
+
+    '''Answer for 2 b'''
+    print("Answer for 2b")
+    #setting up given
+    numbertwoa = np.zeros((3,3))
+    numbertwoa[0][0] = 50
+    numbertwoa[0][1] = 107
+    numbertwoa[0][2] = 36
+    numbertwoa[1][0] = 25
+    numbertwoa[1][1] = 54
+    numbertwoa[1][2] = 20
+    numbertwoa[2][0] = 31
+    numbertwoa[2][1] = 66
+    numbertwoa[2][2] = 21
+
+    solutiontwoa = lukji(numbertwoa, 3)
+    print(solutiontwoa)
+
+
 
 
 
