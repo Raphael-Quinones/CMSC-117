@@ -3,8 +3,8 @@ import numpy as np
 #helper
 def transpose(U, n):
     transposedU = np.zeros((n,n))
-    for i in range(100):
-        for j in range(100):
+    for i in range(n):
+        for j in range(n):
             transposedU[i][j] = U[j][i]
     return transposedU
 
@@ -12,13 +12,13 @@ def block(n, a, b, c):
     U = np.zeros((n,n))
 
     # Setting up U
-    for i in range(100):
+    for i in range(n):
         U[i][i] = a[i]
-    for i in range(99):
+    for i in range(n-1):
         U[i][i+1] = b[i]
-    for i in range(98):
+    for i in range(n-2):
         U[i][i+2] = c[i]
-    for i in range(97):
+    for i in range(n-3):
         U[i][i+3] = 1
 
     return U
@@ -26,32 +26,32 @@ def block(n, a, b, c):
 
 #Solving the equation part
 #Using backwardsubrow
-def backwardSubRow(U, b):
+def backwardSubRow(U,n, b):
     #instatiate 100 zeroes to an x list
-    x = [0 for i in range(100)]
+    x = [0 for i in range(n)]
 
     # 99 because index starts at 0
-    x[99] = b[99]/U[99][99]
+    x[n-1] = b[n-1]/U[n-1][n-1]
 
-    iter = [(99-i) for i in range(100)]
+    iter = [(n-1-i) for i in range(n)]
 
     for i in iter:
         s = 0
         sec_iter = i+1
-        for j in range(sec_iter, 100):
+        for j in range(sec_iter, n):
             s = s + (U[i][j] * x[j])
         x[i] = (b[i] - s)/U[i][i]
     return x
 
 #Using ForwardSubRow
-def forwardSubRow(L, b):
+def forwardSubRow(L, n, b):
     #instatiate 100 zeroes to an x list
-    x = [0 for i in range(100)]
+    x = [0 for i in range(n)]
 
     #set values
     x[0] = b[0]/L[0][0]
 
-    iter = range(2,100)
+    iter = range(2,n)
     for i in iter:
         s = 0
         sec_iter = range(1, i)
@@ -71,6 +71,36 @@ def lukji(A, n):
             for i in range(sec_iter, n):
                 A[i][j] = A[i][j] - (A[i][k] * A[k][j])
     return A
+
+# separate upper and lower triangular system from lukji
+def separatelukji(lukjiarray, n):
+    upper = np.zeros((n,n))
+    lower = np.zeros((n,n))
+
+
+    #for upper
+    iterupper = [(n-1-i) for i in range(n)]
+    for i in iterupper:
+        sec_iterupper = i
+        for j in range(sec_iterupper, n):
+            upper[i][j] = lukjiarray[i][j]
+
+    #for lower
+    iterlower = range(0,n)
+    for i in iterlower:
+        sec_iterlower = range(0, i)
+        for j in sec_iterlower:
+            lower[i][j] = lukjiarray[i][j]
+    #artificially create 1's on the diagonals
+    for i in range(n):
+        lower[i][i] = 1
+
+
+    
+
+    return upper, lower
+        
+
 
 
 if __name__ == "__main__":
@@ -96,7 +126,7 @@ if __name__ == "__main__":
     
     somethingU = block(100, a, b, c)
 
-    oneAsolution = backwardSubRow(somethingU, a)
+    oneAsolution = backwardSubRow(somethingU,100, a)
 
     print(somethingU)
     
@@ -109,7 +139,7 @@ if __name__ == "__main__":
 
     #Transpose somethingU
     somethingL = transpose(somethingU, 100)
-    oneBsolution = forwardSubRow(somethingL, b)
+    oneBsolution = forwardSubRow(somethingL, 100, b)
 
     print(somethingL)
 
@@ -131,7 +161,12 @@ if __name__ == "__main__":
     numbertwoa[2][2] = 21
 
     solutiontwoa = lukji(numbertwoa, 3)
-    print(solutiontwoa)
+    oneupper, onelower = separatelukji(solutiontwoa, 3)
+
+    print(oneupper)
+    print(onelower)
+   
+
 
 
 
