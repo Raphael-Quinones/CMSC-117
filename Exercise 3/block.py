@@ -51,10 +51,10 @@ def forwardSubRow(L, n, b):
     #set values
     x[0] = b[0]/L[0][0]
 
-    iter = range(2,n)
+    iter = range(1,n)
     for i in iter:
         s = 0
-        sec_iter = range(1, i)
+        sec_iter = range(0, i)
         for j in sec_iter:
             s = s + (L[i][j] * x[j])
         x[i] = (b[i] - s)/L[i][i]
@@ -128,9 +128,11 @@ if __name__ == "__main__":
 
     oneAsolution = backwardSubRow(somethingU,100, a)
 
+    print("Matrix for 1a")
     print(somethingU)
     
     #prettify
+    print("Answer for 1a")
     for i in range(100):
         print(oneAsolution[i])
 
@@ -141,13 +143,15 @@ if __name__ == "__main__":
     somethingL = transpose(somethingU, 100)
     oneBsolution = forwardSubRow(somethingL, 100, b)
 
+    print("Transposed Original Matrix")
     print(somethingL)
 
+    print("Answer for 1b")
     for i in range(100):
         print(oneBsolution[i])
 
-    '''Answer for 2 b'''
-    print("Answer for 2b")
+    '''Answer for 2 a'''
+    print("Answer for 2a")
     #setting up given
     numbertwoa = np.zeros((3,3))
     numbertwoa[0][0] = 50
@@ -163,9 +167,43 @@ if __name__ == "__main__":
     solutiontwoa = lukji(numbertwoa, 3)
     oneupper, onelower = separatelukji(solutiontwoa, 3)
 
+    print("Upper Triangle from LU Factorization")
     print(oneupper)
+    print("Lower Triangle from LU Factorization")
     print(onelower)
-   
+
+    atemp = forwardSubRow(onelower, 3, a)
+    atemptwo = backwardSubRow(oneupper, 3, atemp)
+    print("Answer for 2a")
+    print(atemptwo)
+
+    '''Answer for 2b'''
+    print("Answer for 2a")
+    #setting up given
+    numbertwob = np.zeros((3,3))
+    numbertwob[0][0] = 10
+    numbertwob[0][1] = 2
+    numbertwob[0][2] = 1
+    numbertwob[1][0] = 2
+    numbertwob[1][1] = 20
+    numbertwob[1][2] = -2
+    numbertwob[2][0] = -2
+    numbertwob[2][1] = 3
+    numbertwob[2][2] = 10
+
+    solutiontwob = lukji(numbertwob, 3)
+    twoupper, twolower = separatelukji(solutiontwob, 3)
+
+    print("Upper Triangle from LU Factorization")
+    print(twoupper)
+    print("Lower Triangle from LU Factorization")
+    print(twolower)
+
+    #Finding the solutions
+    btemp = forwardSubRow(twolower, 3, a)
+    btemptwo = backwardSubRow(twoupper, 3, btemp)
+    print("Answer for 2b")
+    print(btemptwo)
 
 
 
