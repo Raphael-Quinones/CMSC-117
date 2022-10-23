@@ -1,4 +1,8 @@
 import numpy as np
+import sys
+
+#Set up numpy to print whole arrays
+np.set_printoptions(threshold=sys.maxsize)
 
 #helper
 def transpose(U, n):
@@ -33,7 +37,7 @@ def backwardSubRow(U,n, b):
     # 99 because index starts at 0
     x[n-1] = b[n-1]/U[n-1][n-1]
 
-    iter = [(n-1-i) for i in range(n)]
+    iter = [(n-i-1) for i in range(n)]
 
     for i in iter:
         s = 0
@@ -94,11 +98,19 @@ def separatelukji(lukjiarray, n):
     #artificially create 1's on the diagonals
     for i in range(n):
         lower[i][i] = 1
-
-
-    
-
     return upper, lower
+
+def res_norm(T, x):
+    # find Ax for computing residual norm
+    Ax = np.matmul(T, x)  
+
+    #residual norm
+    res_norm = 0
+    res_normarray = []
+    for i in range(100):
+        res_norm = res_norm + (abs(a[i] - Ax[i]))
+        res_normarray.append(abs(a[i] - Ax[i]))
+    return res_norm
         
 
 
@@ -121,89 +133,113 @@ if __name__ == "__main__":
             setter = True
 
     """Answer for Number 1 a"""
-    print("Answer for Number 1 a")
-    # 100 1's in set
+    with open('Item1a.txt', 'w') as f:
+        print("Answer for Number 1 a", file = f)
     
-    somethingU = block(100, a, b, c)
+        somethingU = block(100, a, b, c)
+        oneAsolution = backwardSubRow(somethingU,100, a)
 
-    oneAsolution = backwardSubRow(somethingU,100, a)
+        print("Matrix for 1a", file = f)
+        for i in range(100):
+            print(list(somethingU[i]), file = f)
 
-    print("Matrix for 1a")
-    print(somethingU)
+        #residual norm
+        res_normone = res_norm(somethingU, oneAsolution)
+        print("Residual Norm", file = f)
+        print(res_normone, file = f)
+
     
-    #prettify
-    print("Answer for 1a")
-    for i in range(100):
-        print(oneAsolution[i])
+        #prettify
+        print("Answer for 1a", file = f)
+        print(oneAsolution, file = f)
 
     """Answer for Number 1 b"""
-    print("Answer for Number 1 b")
+    with open('Item1b.txt', 'w') as f:
 
-    #Transpose somethingU
-    somethingL = transpose(somethingU, 100)
-    oneBsolution = forwardSubRow(somethingL, 100, b)
+        print("Answer for Number 1 b", file = f)
 
-    print("Transposed Original Matrix")
-    print(somethingL)
+        #Transpose somethingU
+        somethingL = transpose(somethingU, 100)
+        oneBsolution = forwardSubRow(somethingL, 100, b)
 
-    print("Answer for 1b")
-    for i in range(100):
-        print(oneBsolution[i])
+        print("Matrix for 1b", file = f)
+        for i in range(100):
+            print(list(somethingL[i]), file = f)
+
+        #residual norm
+        res_normtwo = res_norm(somethingL, oneBsolution)
+        print("Residual Norm", file = f)
+        print(res_normtwo, file = f)
+
+        print("Answer for 1b", file = f)
+        print(oneBsolution, file = f)
 
     '''Answer for 2 a'''
-    print("Answer for 2a")
-    #setting up given
-    numbertwoa = np.zeros((3,3))
-    numbertwoa[0][0] = 50
-    numbertwoa[0][1] = 107
-    numbertwoa[0][2] = 36
-    numbertwoa[1][0] = 25
-    numbertwoa[1][1] = 54
-    numbertwoa[1][2] = 20
-    numbertwoa[2][0] = 31
-    numbertwoa[2][1] = 66
-    numbertwoa[2][2] = 21
+    with open('Item2a.txt', 'w') as f:
 
-    solutiontwoa = lukji(numbertwoa, 3)
-    oneupper, onelower = separatelukji(solutiontwoa, 3)
+        print("Answer for 2a", file = f)
+        #setting up given
+        numbertwoa = np.zeros((3,3))
+        numbertwoa[0][0] = 50
+        numbertwoa[0][1] = 107
+        numbertwoa[0][2] = 36
+        numbertwoa[1][0] = 25
+        numbertwoa[1][1] = 54
+        numbertwoa[1][2] = 20
+        numbertwoa[2][0] = 31
+        numbertwoa[2][1] = 66
+        numbertwoa[2][2] = 21
 
-    print("Upper Triangle from LU Factorization")
-    print(oneupper)
-    print("Lower Triangle from LU Factorization")
-    print(onelower)
+        print("Given", file = f)
+        for i in range(3):
+            print(numbertwoa[i], file = f)
+                
+        solutiontwoa = lukji(numbertwoa, 3)
+        oneupper, onelower = separatelukji(solutiontwoa, 3)
 
-    atemp = forwardSubRow(onelower, 3, a)
-    atemptwo = backwardSubRow(oneupper, 3, atemp)
-    print("Answer for 2a")
-    print(atemptwo)
+        print("Upper Triangle from LU Factorization", file = f)
+        print(oneupper, file = f)
+        print("Lower Triangle from LU Factorization", file = f)
+        print(onelower, file = f)
+
+        atemp = forwardSubRow(onelower, 3, a)
+        atemptwo = backwardSubRow(oneupper, 3, atemp)
+        print("Answer for 2a", file = f)
+        print(atemptwo, file = f)
 
     '''Answer for 2b'''
-    print("Answer for 2a")
-    #setting up given
-    numbertwob = np.zeros((3,3))
-    numbertwob[0][0] = 10
-    numbertwob[0][1] = 2
-    numbertwob[0][2] = 1
-    numbertwob[1][0] = 2
-    numbertwob[1][1] = 20
-    numbertwob[1][2] = -2
-    numbertwob[2][0] = -2
-    numbertwob[2][1] = 3
-    numbertwob[2][2] = 10
+    with open('Item2b.txt', 'w') as f:
 
-    solutiontwob = lukji(numbertwob, 3)
-    twoupper, twolower = separatelukji(solutiontwob, 3)
+        print("Answer for 2b", file = f)
+        #setting up given
+        numbertwob = np.zeros((3,3))
+        numbertwob[0][0] = 10
+        numbertwob[0][1] = 2
+        numbertwob[0][2] = 1
+        numbertwob[1][0] = 2
+        numbertwob[1][1] = 20
+        numbertwob[1][2] = -2
+        numbertwob[2][0] = -2
+        numbertwob[2][1] = 3
+        numbertwob[2][2] = 10
 
-    print("Upper Triangle from LU Factorization")
-    print(twoupper)
-    print("Lower Triangle from LU Factorization")
-    print(twolower)
+        print("Given", file = f)
+        for i in range(3):
+            print(numbertwob[i], file = f)
 
-    #Finding the solutions
-    btemp = forwardSubRow(twolower, 3, a)
-    btemptwo = backwardSubRow(twoupper, 3, btemp)
-    print("Answer for 2b")
-    print(btemptwo)
+        solutiontwob = lukji(numbertwob, 3)
+        twoupper, twolower = separatelukji(solutiontwob, 3)
+
+        print("Upper Triangle from LU Factorization", file = f)
+        print(twoupper, file = f)
+        print("Lower Triangle from LU Factorization", file = f)
+        print(twolower, file = f)
+
+        #Finding the solutions
+        btemp = forwardSubRow(twolower, 3, a)
+        btemptwo = backwardSubRow(twoupper, 3, btemp)
+        print("Answer for 2b", file = f)
+        print(btemptwo, file = f)
 
 
 
