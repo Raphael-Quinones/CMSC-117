@@ -9,14 +9,14 @@ def f(x):
     return 1/(1-x**2+x**4)
 
 def p_n(z):
-    x = np.linspace(-1,1,20 )
+    x = np.linspace(-5,5,5)
     fx = f(x)
     return polyinterp.LagrangeInterp(fx,x,z)
 
 def g(x):
     return f(x)-p_n(x)
 
-print("supnorm = ", polyinterp.supnorm(g, 1000, -1, 1))
+print("supnorm = ", polyinterp.supnorm(g, 1000, -5, 5))
 z = np.linspace(-1,1, 100)
 fz = f(z)
 Pz = p_n(z)
