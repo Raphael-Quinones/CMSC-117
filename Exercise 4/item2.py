@@ -9,7 +9,7 @@ def f(x):
     return 1/(1-x**2+x**4)
 
 def p_n(z):
-    x = np.linspace(-5,5,5)
+    x = np.linspace(-5,5,6)
     fx = f(x)
     return polyinterp.LagrangeInterp(fx,x,z)
 
