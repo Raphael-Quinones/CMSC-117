@@ -17,7 +17,7 @@ def g(x):
     return f(x)-p_n(x)
 
 print("supnorm = ", polyinterp.supnorm(g, 1000, -5, 5))
-z = np.linspace(-1,1, 100)
+z = np.linspace(-5,5, 1000)
 fz = f(z)
 Pz = p_n(z)
 plt.figure(1)
